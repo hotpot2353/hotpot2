@@ -1,0 +1,87 @@
+# 全局配置：环境 + 数据处理参数
+# 非机密项放此处；API Key、数据库密码放 .env
+
+app:
+  name: fin_analyst_crew
+  env: dev
+  timezone: Asia/Shanghai
+
+paths:
+  data_root: data
+  raw_pdf: data/raw/pdf
+  raw_announcements: data/raw/announcements
+  raw_financials: data/raw/structured/financials
+  raw_quotes: data/raw/structured/quotes
+  parsed_markdown: data/parsed/markdown
+  parsed_metadata: data/parsed/metadata
+  processed_financials: data/processed/financials
+  processed_quotes: data/processed/quotes
+  cache_akshare: data/cache/akshare
+  cache_announcements: data/cache/announcements
+  stock_list: stock_list.txt
+  logs: logs
+  processed_blocks: data/processed/blocks
+
+# 火山方舟（OpenAI 兼容接口）；密钥从环境变量 ARK_API_KEY 读取
+ark:
+  base_url: https://ark.cn-beijing.volces.com/api/v3
+  # 显式 Model ID：别名直调 404 InvalidEndpointOrModel.NotFound
+  llm_model: doubao-seed-2-1-pro-260628
+  # embedding/rerank 模型参数统一在 configs/rag.yaml 管理，此处不再重复登记
+  timeout: 120
+
+# VikingDB 数据面（知识库 rerank 接口）；AK/SK 从 .env VIKINGDB_AK/VIKINGDB_SK 读取
+vikingdb:
+  host: api-knowledgebase.mlp.cn-beijing.volces.com
+  region: cn-beijing
+  scheme: https
+  timeout: 30
+
+# PostgreSQL 连接（非机密部分；密码从 .env 读取）
+db:
+  host: localhost
+  port: 5432
+  dbname: fin_rag
+  user: fin
+  table_financials: fin_financials
+  table_quotes: fin_quotes
+
+# 数据采集：直连巨潮公开接口为主，akshare 为备用源
+datasource:
+  primary: cninfo_direct
+  fallback: akshare
+  cninfo:
+    query_url: https://www.cninfo.com.cn/new/hisAnnouncement/query
+    pdf_base: https://static.cninfo.com.cn
+    user_agent: Mozilla/5.0
+    page_size: 30
+    # 年报披露窗口为次年 1-4 月
+    report_season:
+      start: "01-01"
+      end: "04-30"
+  tencent_quote_url: https://qt.gtimg.cn/q
+  years: [2023, 2024]
+  request_interval_sec: 1.0
+  max_retries: 3
+  timeout: 30
+  cache_enabled: true
+
+# 年报 Markdown 规范化（切块/去重前的结构重建）调参；规则变更后 bump normalizer_version 触发重算
+normalize:
+  normalizer_version: normalize/6
+  max_continuation_page_gap: 2
+  bind_score_threshold: 4
+  textflow_min_numeric_rows: 8
+  armed_title_ttl_pages: 2
+
+# 中间结果摘要压缩：RAG 检索命中子块的抽取式摘要开关与预算
+# debug 置 false 直传全文，供压缩前后 token 对比评测
+compression:
+  enabled: true
+  # 600 而非 300：财务全精度数值单条即吃 20+ token，300 会把 JSON 截断缺右括号
+  max_tokens: 600
+
+# 风控第3层 LLM 幻觉标记：仅 evidence_ref 可核验时触发，
+# LLM 只出候选（编造/矛盾/证据不足三型），等级由代码按型定——标记不定案
+hallucination:
+  enabled: true

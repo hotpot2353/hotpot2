@@ -1,0 +1,44 @@
+# RAG 独立配置：与主配置 config.yaml 分离，仅承载检索链参数
+# 边界：切块/嵌入/入库/检索链路代码的启动须用户明确指令；本文件锁定参数口径
+
+# 嵌入：真实输出 2048 维（可选 1024 降维），输出向量已归一化；
+# 必须与 PGVector chunks 表 halfvec(N) 一致（halfvec：pgvector 索引对 vector 上限 2000 维，2048 维只能走 halfvec）
+# model 显式锁 251215 版 Model ID 而非 doubao-embedding-vision 别名：别名随官方迭代漂移，
+# 存量向量与生成模型版本绑定，混存不可比（与 normalize 幂等键带版本号同理）
+embedding:
+  model: doubao-embedding-vision-251215
+  dimension: 2048
+
+# PGVector 存储：chunks 表名；连接参数复用主配置 config.yaml 的 db 段
+store:
+  table_chunks: chunks
+
+# 混合检索：召回前按 stock_code / year / section_path 元数据过滤
+# 向量召回 + BM25（jieba 预分词 tsvector + GIN）→ RRF 融合（基于排名，无权重项）→ 重排精排
+# rerank 三模型同属 VikingDB 知识库数据面接口（api-knowledgebase 域名，AK/SK IAM 鉴权，
+# 不支持方舟 API Key），切换模型仅改本参数：
+#   doubao-seed-rerank：字节自研，独有重排指令（RerankInstruction）+ 阈值过滤，官方推荐
+#   base-multilingual-rerank：速度快、长文本、70+ 语种
+#   m3-v2-rerank：常规文本、100+ 语种
+# 选型 doubao-seed-rerank：本项目纯中文金融文本、子块均值 539 字符——语种/长文本/速度优势均用不上，
+# 精度优先，且重排指令可注入领域意图（如"该文本片能否回答该财务问题"）
+retrieval:
+  vector_top_k: 30
+  bm25_top_k: 30
+  rrf_k: 60
+  # BM25 连接词：and 全词元命中（过严）| and_or_fallback 零命中降级 OR
+  # 降级为单调改进：AND 有结果时行为不变，放宽召回的噪声由 rerank 精排压制
+  bm25_operator: and_or_fallback
+  rerank: true
+  rerank_top_n: 30
+  rerank_model: doubao-seed-rerank
+  # 重排指令：默认不传（走服务端通用相关性）；如需实验可写回 rerank_instruction 行（空串即不传）
+  final_top_k: 8
+
+# 标题感知语义切块：优先级 节 > 小节 > 子条，长度仅兜底；过短小节合并防碎片
+# 切块规则变更后 bump chunker_version 触发全量重切（与 normalize/N 同一套幂等惯例）
+chunking:
+  chunker_version: chunking/2
+  child_max_chars: 1200
+  parent_max_chars: 6000
+  short_section_chars: 200

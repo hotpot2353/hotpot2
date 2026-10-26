@@ -1,0 +1,41 @@
+# 机密
+.env
+
+# 原始数据与缓存（体量大、可重新下载）
+data/raw/
+data/cache/
+# 保留目录占位
+!data/raw/**/.gitkeep
+!data/cache/**/.gitkeep
+
+# 解析与产物数据（可由管道重建，约 700MB；仅保留小型评测存档）
+data/parsed/
+data/processed/*
+!data/processed/eval/
+
+# 日志
+logs/
+!logs/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# 生成产物（可由链路重新生成）
+reports/
+/*.html
+
+# IDE / 工具缓存
+.screenshots/
+.crewai/
+.trae/

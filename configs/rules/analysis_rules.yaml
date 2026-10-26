@@ -1,0 +1,247 @@
+# 财务指标组合研判规则 + 方向词量化阈值 + 风控行业异动阈值
+# 消费方：基本面Agent（组合研判，命中按条件数降序取 top-2）、风控Agent第1层硬规则（零 LLM）
+# 本文件只放业务数值；引擎逻辑在 src/rules/engine.py，改阈值不改代码
+
+# ── 方向词量化 ──
+direction_thresholds:
+  stable_pp: 2.0          # 百分点类指标 |Δ|≤2pp 视为"稳定/不变"
+  stable_rel: 0.05        # 倍数/比率类指标 |同比相对变化|≤5% 视为"稳定"
+  large_change_rel: 0.30  # 同比相对变化≥30% 视为"大幅"
+  persist_periods: 2      # 连续≥2期同向视为"持续"
+
+# ── 指标方向判定类型：pp=按百分点差值判定 / rel=按相对变化判定 ──
+# 指标池锁死 8 项（不引入池外指标）；键名与 fin_financials 指标字段对齐
+indicator_types:
+  gross_margin: pp            # 毛利率（%）
+  net_margin: pp              # 净利率（%）
+  roe: pp                     # ROE（%）
+  cash_to_net_profit: rel     # 净现比（无量纲，绝对值判定用 op 条件）
+  receivable_turnover: rel    # 应收账款周转率（次）
+  inventory_turnover: rel     # 存货周转率（次）
+  pe: rel                     # PE（倍，查询日收盘）
+  pb: rel                     # PB（倍，查询日收盘）
+
+# ── 风控第1层硬规则：行业差异化异动阈值（同比相对变化绝对值超阈值 → 标记异动）──
+# 经验值，待按行业分位数据回标；未列出行业走 default
+risk_industry_thresholds:
+  default: 0.50
+  industries:
+    消费:      {default: 0.40, gross_margin: 0.25}
+    医药:      {default: 0.40, gross_margin: 0.30}
+    金融:      {default: 0.35, roe: 0.25}
+    新能源:    {default: 0.60, inventory_turnover: 0.45}
+    科技:      {default: 0.60, net_margin: 0.45}
+    周期:      {default: 0.70, gross_margin: 0.50}
+    军工:      {default: 0.70}
+    公用事业:  {default: 0.30, gross_margin: 0.15}
+
+# ── 20 条指标组合规则（含义/风险警告逐字保留原文）──
+# 条件两类：
+#   方向条件  {indicator, direction: up/down/stable, [magnitude: large], [persist: N]}
+#   绝对值条件 {indicator, op: gt/lt, value: 数值, [persist: N]}（对最近 N 期取值逐一校验）
+# 注：绝对阈值中"PB较低/ROE较高"缺统一标尺，暂取经验值（pb<15 / roe>10），待行业分位回标后修订
+rules:
+  - id: 1
+    conditions:
+      - {indicator: gross_margin, direction: up}
+      - {indicator: net_margin, direction: down}
+    meaning: 产品本身的盈利空间提升，但公司整体费用增长幅度超过毛利增量，销售管理研发或财务费用侵蚀利润。
+    risk_warning: 费用管控能力减弱，扩张或者投入持续消耗利润，需要持续跟踪费用的可持续性。
+  - id: 2
+    conditions:
+      - {indicator: gross_margin, direction: stable}
+      - {indicator: net_margin, direction: up}
+      - {indicator: cash_to_net_profit, direction: down}
+    meaning: 账面净利润改善，但经营现金流入跟不上账面利润增长，利润更多体现在债权或者存货资产上。
+    risk_warning: 盈利质量下滑，账面利润存在纸面富贵可能，存在应收坏账或存货减值隐患。
+  - id: 3
+    conditions:
+      - {indicator: roe, direction: up}
+      - {indicator: net_margin, direction: down}
+      - {indicator: inventory_turnover, direction: up}
+    meaning: 单品盈利水平降低，依靠加快存货周转，薄利多销实现股东回报提升。
+    risk_warning: 盈利依赖销售规模，产品议价能力走弱，一旦需求下滑，利润会快速收缩。
+  - id: 4
+    conditions:
+      - {indicator: roe, direction: up}
+      - {indicator: net_margin, direction: stable}
+      - {indicator: receivable_turnover, direction: down}
+      - {indicator: inventory_turnover, direction: down}
+    meaning: 产品盈利水平没有变化，股东回报提升依靠增加财务杠杆，同时存货和回款效率变差。
+    risk_warning: 高ROE由负债驱动，资产运营效率恶化，负债抬升利息压力，资金链承压。
+  - id: 5
+    conditions:
+      - {indicator: receivable_turnover, direction: down}
+      - {indicator: inventory_turnover, direction: up}
+    meaning: 库存去化速度良好，为拉动销售放宽客户账期，赊销规模扩大。
+    risk_warning: 应收账款规模持续扩张，客户回款周期拉长，坏账计提风险上升，现金流容易收紧。
+  - id: 6
+    conditions:
+      - {indicator: receivable_turnover, direction: up}
+      - {indicator: inventory_turnover, direction: down}
+    meaning: 客户回款效率优秀，但商品销售不畅，资金大量沉淀在库存当中。
+    risk_warning: 存货积压，存在存货跌价风险，库存占用现金会持续压低经营现金流。
+  - id: 7
+    conditions:
+      - {indicator: gross_margin, direction: stable}
+      - {indicator: net_margin, direction: stable}
+      - {indicator: roe, direction: stable}
+      - {indicator: pe, direction: down}
+      - {indicator: pb, direction: down}
+    meaning: 企业基本面经营状态没有发生明显变化，市场对公司未来盈利预期下调或者整体市场情绪下行。
+    risk_warning: 估值下行可能提前反映尚未披露的基本面利空，不可单纯依靠低估值判断标的低估。
+  - id: 8
+    conditions:
+      - {indicator: gross_margin, direction: up}
+      - {indicator: net_margin, direction: up}
+      - {indicator: roe, direction: up}
+      - {indicator: pe, direction: down}
+    meaning: 企业账面盈利增长幅度高于股价上涨幅度，静态市盈率被动降低。
+    risk_warning: 需要核查净现比，如果净现比持续偏低，高增长是账面利润，低估值属于价值陷阱。
+  - id: 9
+    conditions:
+      - {indicator: roe, direction: down}
+      - {indicator: pb, direction: down, magnitude: large}
+    meaning: 股东资本回报水平持续走低，市场不愿意给公司账面净资产较高溢价。
+    risk_warning: 若叠加应收存货周转恶化，账面净资产存在虚高可能，资产减值会进一步侵蚀股东权益。
+  - id: 10
+    conditions:
+      - {indicator: gross_margin, direction: down}
+      - {indicator: net_margin, direction: up}
+    meaning: 产品直接盈利空间收缩，依靠压缩期间费用，或者获得大额非经常性收益推高净利润。
+    risk_warning: 产品竞争力下滑，利润依靠费用压缩或一次性收益，主业盈利能力弱化，利润不可持续。
+  - id: 11
+    conditions:
+      - {indicator: gross_margin, direction: down}
+      - {indicator: net_margin, direction: down}
+      - {indicator: inventory_turnover, direction: up}
+    meaning: 产品定价能力减弱，单品利润变薄，依靠快速出货维持营收规模。
+    risk_warning: 行业竞争加剧，降价促销，若需求进一步萎缩，营收和利润会同步快速下滑。
+  - id: 12
+    conditions:
+      - {indicator: gross_margin, direction: up}
+      - {indicator: net_margin, direction: up}
+      - {indicator: cash_to_net_profit, op: gt, value: 1.0}
+      - {indicator: receivable_turnover, direction: stable}
+      - {indicator: inventory_turnover, direction: stable}
+    meaning: 产品盈利改善，费用管控良好，账面利润匹配真实经营现金，资产周转健康。
+    risk_warning: 无显著内在风险，需要持续观察行业需求能否维持当前盈利水平。
+  - id: 13
+    conditions:
+      - {indicator: gross_margin, direction: stable}
+      - {indicator: net_margin, direction: stable}
+      - {indicator: cash_to_net_profit, op: lt, value: 1.0, persist: 2}
+      - {indicator: receivable_turnover, direction: down}
+    meaning: 主业盈利水平保持稳定，但销售大量采用赊销模式，利润转化为应收账款。
+    risk_warning: 客户回款能力变差，应收持续累积，未来大额坏账会一次性冲击利润。
+  - id: 14
+    conditions:
+      - {indicator: gross_margin, direction: stable}
+      - {indicator: net_margin, direction: stable}
+      - {indicator: cash_to_net_profit, op: lt, value: 1.0, persist: 2}
+      - {indicator: inventory_turnover, direction: down}
+    meaning: 账面盈利正常，企业持续备货，现金被库存占用。
+    risk_warning: 库存积压，商品贬值风险提升，大额存货减值会侵蚀未来利润。
+  - id: 15
+    conditions:
+      - {indicator: cash_to_net_profit, op: gt, value: 1.0}
+      - {indicator: roe, direction: down}
+      - {indicator: pe, direction: up}
+    meaning: 利润现金质量很好，但股东资本回报下滑，市场对公司长期成长依然给予较高预期。
+    risk_warning: 市场预期过高，如果ROE持续不能修复，未来存在估值回落压力。
+  - id: 16
+    conditions:
+      - {indicator: gross_margin, direction: up}
+      - {indicator: inventory_turnover, direction: down}
+    meaning: 产品单价提升或者产品结构优化，毛利率改善，但商品销售速度放缓，库存堆积。
+    risk_warning: 提价导致需求减弱，库存持续增加，后续可能需要降价去库存，压缩未来毛利。
+  - id: 17
+    conditions:
+      - {indicator: receivable_turnover, direction: up}
+      - {indicator: cash_to_net_profit, op: lt, value: 0.8}
+    meaning: 客户回款速度提升，但经营现金流依旧弱于净利润，问题不在应收端。
+    risk_warning: 排查存货预付账款或大额非经常性收益，这几类因素消耗现金或者虚增账面利润。
+  - id: 18
+    conditions:
+      - {indicator: pb, op: lt, value: 15}
+      - {indicator: roe, op: gt, value: 10}
+      - {indicator: receivable_turnover, direction: down, persist: 2}
+      - {indicator: inventory_turnover, direction: down, persist: 2}
+    meaning: 静态市净率看起来便宜，股东账面回报较高，但资产周转持续恶化。
+    risk_warning: 高ROE质量差，资产端应收存货存在减值隐患，低PB属于价值陷阱。
+  - id: 19
+    conditions:
+      - {indicator: pe, direction: stable}
+      - {indicator: pb, direction: up}
+      - {indicator: roe, direction: up}
+    meaning: 市盈率没有变化，市净率跟随净资产收益率同步上行，股东资本回报改善。
+    risk_warning: 区分ROE提升来源，如果依靠加杠杆，负债风险会持续累积。
+  - id: 20
+    conditions:
+      - {indicator: gross_margin, direction: down}
+      - {indicator: cash_to_net_profit, op: gt, value: 1.0}
+      - {indicator: receivable_turnover, direction: up}
+      - {indicator: inventory_turnover, direction: up}
+    meaning: 单品毛利下降，但公司加快周转快速回款，利润有充足现金支撑。
+    risk_warning: 薄利多销模式，行业竞争激烈，一旦行业供需改变，盈利空间容易快速压缩。
+
+# ── 池内标的行业归属（风控第2层异动阈值按行业取值；与 risk_industry_thresholds 键对齐）──
+# 8 大行业与指标池覆盖池一致；未登记代码走 default 阈值并在局限性中声明
+industry_by_code:
+  # 消费（13）
+  "600519": 消费
+  "000858": 消费
+  "000568": 消费
+  "600809": 消费
+  "600600": 消费
+  "600887": 消费
+  "603288": 消费
+  "000333": 消费
+  "000651": 消费
+  "600690": 消费
+  "600436": 消费
+  "000538": 消费
+  "601888": 消费
+  # 医药（4）
+  "600276": 医药
+  "603259": 医药
+  "300760": 医药
+  "300015": 医药
+  # 金融（9）
+  "000001": 金融
+  "600036": 金融
+  "601398": 金融
+  "601939": 金融
+  "601318": 金融
+  "601628": 金融
+  "600030": 金融
+  "601688": 金融
+  "300059": 金融
+  # 新能源（5）
+  "300750": 新能源
+  "002594": 新能源
+  "601012": 新能源
+  "002460": 新能源
+  "002466": 新能源
+  # 科技（8）
+  "688981": 科技
+  "002475": 科技
+  "603986": 科技
+  "688111": 科技
+  "002415": 科技
+  "002230": 科技
+  "600588": 科技
+  "000063": 科技
+  # 周期（10）
+  "601899": 周期
+  "600309": 周期
+  "601857": 周期
+  "600028": 周期
+  "601088": 周期
+  "000725": 周期
+  "601668": 周期
+  "601633": 周期
+  "000625": 周期
+  "600031": 周期
+  # 军工（1）
+  "600893": 军工

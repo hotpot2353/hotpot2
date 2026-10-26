@@ -1,0 +1,977 @@
+{
+  "ts": "2026-10-25T19:19:32",
+  "exp1_or": {
+    "aggregate": {
+      "vector": {
+        "hit": 0.9333333333333333,
+        "recall": 0.3191540249873583,
+        "precision": 0.3416666666666667,
+        "mrr": 0.6438888888888888
+      },
+      "bm25": {
+        "hit": 0.8666666666666667,
+        "recall": 0.3999890541557208,
+        "precision": 0.45,
+        "mrr": 0.7777777777777778
+      },
+      "hybrid": {
+        "hit": 1.0,
+        "recall": 0.4540053156719823,
+        "precision": 0.44166666666666665,
+        "mrr": 0.8138888888888889
+      }
+    },
+    "per_query": [
+      {
+        "qid": "moutai_rev",
+        "gt_size": 1,
+        "legs": {
+          "vector": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0,
+            "latency_s": 0.239
+          },
+          "bm25": {
+            "recall": 1.0,
+            "precision": 0.125,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.03
+          },
+          "hybrid": {
+            "recall": 1.0,
+            "precision": 0.125,
+            "mrr": 0.3333333333333333,
+            "hit": 1,
+            "first_rank": 3,
+            "latency_s": 0.256
+          }
+        }
+      },
+      {
+        "qid": "moutai_channel",
+        "gt_size": 14,
+        "legs": {
+          "vector": {
+            "recall": 0.5,
+            "precision": 0.875,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.127
+          },
+          "bm25": {
+            "recall": 0.42857142857142855,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.032
+          },
+          "hybrid": {
+            "recall": 0.5,
+            "precision": 0.875,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.146
+          }
+        }
+      },
+      {
+        "qid": "moutai_dividend",
+        "gt_size": 9,
+        "legs": {
+          "vector": {
+            "recall": 0.1111111111111111,
+            "precision": 0.125,
+            "mrr": 0.2,
+            "hit": 1,
+            "first_rank": 5,
+            "latency_s": 0.126
+          },
+          "bm25": {
+            "recall": 0.4444444444444444,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.029
+          },
+          "hybrid": {
+            "recall": 0.4444444444444444,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.175
+          }
+        }
+      },
+      {
+        "qid": "moutai_gross",
+        "gt_size": 6,
+        "legs": {
+          "vector": {
+            "recall": 1.0,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.129
+          },
+          "bm25": {
+            "recall": 0.3333333333333333,
+            "precision": 0.25,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.033
+          },
+          "hybrid": {
+            "recall": 0.6666666666666666,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.192
+          }
+        }
+      },
+      {
+        "qid": "moutai_risk",
+        "gt_size": 2,
+        "legs": {
+          "vector": {
+            "recall": 0.5,
+            "precision": 0.125,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.092
+          },
+          "bm25": {
+            "recall": 0.5,
+            "precision": 0.125,
+            "mrr": 0.3333333333333333,
+            "hit": 1,
+            "first_rank": 3,
+            "latency_s": 0.023
+          },
+          "hybrid": {
+            "recall": 1.0,
+            "precision": 0.25,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.132
+          }
+        }
+      },
+      {
+        "qid": "pingan_premium",
+        "gt_size": 27,
+        "legs": {
+          "vector": {
+            "recall": 0.14814814814814814,
+            "precision": 0.5,
+            "mrr": 0.25,
+            "hit": 1,
+            "first_rank": 4,
+            "latency_s": 0.184
+          },
+          "bm25": {
+            "recall": 0.2962962962962963,
+            "precision": 1.0,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.033
+          },
+          "hybrid": {
+            "recall": 0.2962962962962963,
+            "precision": 1.0,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.205
+          }
+        }
+      },
+      {
+        "qid": "pingan_invest",
+        "gt_size": 2,
+        "legs": {
+          "vector": {
+            "recall": 0.5,
+            "precision": 0.125,
+            "mrr": 0.125,
+            "hit": 1,
+            "first_rank": 8,
+            "latency_s": 0.125
+          },
+          "bm25": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0,
+            "latency_s": 0.018
+          },
+          "hybrid": {
+            "recall": 0.5,
+            "precision": 0.125,
+            "mrr": 0.125,
+            "hit": 1,
+            "first_rank": 8,
+            "latency_s": 0.122
+          }
+        }
+      },
+      {
+        "qid": "citic_biz",
+        "gt_size": 39,
+        "legs": {
+          "vector": {
+            "recall": 0.10256410256410256,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.134
+          },
+          "bm25": {
+            "recall": 0.15384615384615385,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.04
+          },
+          "hybrid": {
+            "recall": 0.10256410256410256,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.153
+          }
+        }
+      },
+      {
+        "qid": "citic_audit",
+        "gt_size": 5,
+        "legs": {
+          "vector": {
+            "recall": 0.4,
+            "precision": 0.25,
+            "mrr": 0.25,
+            "hit": 1,
+            "first_rank": 4,
+            "latency_s": 0.248
+          },
+          "bm25": {
+            "recall": 0.8,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.035
+          },
+          "hybrid": {
+            "recall": 0.4,
+            "precision": 0.25,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.162
+          }
+        }
+      },
+      {
+        "qid": "cmb_npl",
+        "gt_size": 7,
+        "legs": {
+          "vector": {
+            "recall": 0.2857142857142857,
+            "precision": 0.25,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.137
+          },
+          "bm25": {
+            "recall": 0.42857142857142855,
+            "precision": 0.375,
+            "mrr": 0.3333333333333333,
+            "hit": 1,
+            "first_rank": 3,
+            "latency_s": 0.044
+          },
+          "hybrid": {
+            "recall": 0.2857142857142857,
+            "precision": 0.25,
+            "mrr": 0.25,
+            "hit": 1,
+            "first_rank": 4,
+            "latency_s": 0.177
+          }
+        }
+      },
+      {
+        "qid": "hengrui_rd",
+        "gt_size": 22,
+        "legs": {
+          "vector": {
+            "recall": 0.22727272727272727,
+            "precision": 0.625,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.157
+          },
+          "bm25": {
+            "recall": 0.22727272727272727,
+            "precision": 0.625,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.019
+          },
+          "hybrid": {
+            "recall": 0.2727272727272727,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.136
+          }
+        }
+      },
+      {
+        "qid": "catl_capacity",
+        "gt_size": 4,
+        "legs": {
+          "vector": {
+            "recall": 0.25,
+            "precision": 0.125,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.183
+          },
+          "bm25": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0,
+            "latency_s": 0.035
+          },
+          "hybrid": {
+            "recall": 0.25,
+            "precision": 0.125,
+            "mrr": 0.5,
+            "hit": 1,
+            "first_rank": 2,
+            "latency_s": 0.227
+          }
+        }
+      },
+      {
+        "qid": "lithium_cross",
+        "gt_size": 30,
+        "legs": {
+          "vector": {
+            "recall": 0.1,
+            "precision": 0.375,
+            "mrr": 0.5,
+            "hit": 1,
+            "first_rank": 2,
+            "latency_s": 0.161
+          },
+          "bm25": {
+            "recall": 0.2,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.433
+          },
+          "hybrid": {
+            "recall": 0.16666666666666666,
+            "precision": 0.625,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.155
+          }
+        }
+      },
+      {
+        "qid": "battery_cross",
+        "gt_size": 16,
+        "legs": {
+          "vector": {
+            "recall": 0.0625,
+            "precision": 0.125,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.183
+          },
+          "bm25": {
+            "recall": 0.1875,
+            "precision": 0.375,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.738
+          },
+          "hybrid": {
+            "recall": 0.125,
+            "precision": 0.25,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.263
+          }
+        }
+      },
+      {
+        "qid": "moutai_cashflow",
+        "gt_size": 5,
+        "legs": {
+          "vector": {
+            "recall": 0.6,
+            "precision": 0.375,
+            "mrr": 0.3333333333333333,
+            "hit": 1,
+            "first_rank": 3,
+            "latency_s": 0.19
+          },
+          "bm25": {
+            "recall": 1.0,
+            "precision": 0.625,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.025
+          },
+          "hybrid": {
+            "recall": 0.8,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1,
+            "latency_s": 0.234
+          }
+        }
+      }
+    ]
+  },
+  "exp2_rrf60": {
+    "4": {
+      "hit": 0.9333333333333333,
+      "recall": 0.30166604999938335,
+      "precision": 0.5833333333333334,
+      "mrr": 0.8122222222222223
+    },
+    "8": {
+      "hit": 0.9333333333333333,
+      "recall": 0.4009541692875026,
+      "precision": 0.4,
+      "mrr": 0.8122222222222223
+    },
+    "16": {
+      "hit": 1.0,
+      "recall": 0.5388666271999605,
+      "precision": 0.275,
+      "mrr": 0.8122222222222223
+    }
+  },
+  "exp2_rrf10": {
+    "4": {
+      "hit": 0.9333333333333333,
+      "recall": 0.28833271666605,
+      "precision": 0.5666666666666667,
+      "mrr": 0.8122222222222223
+    },
+    "8": {
+      "hit": 0.9333333333333333,
+      "recall": 0.41428750262083597,
+      "precision": 0.4083333333333333,
+      "mrr": 0.8122222222222223
+    },
+    "16": {
+      "hit": 1.0,
+      "recall": 0.5388666271999605,
+      "precision": 0.275,
+      "mrr": 0.8122222222222223
+    }
+  },
+  "exp3_paired": [
+    {
+      "qid": "moutai_rev",
+      "gt_size": 1,
+      "legs": {
+        "formal": {
+          "vector": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "bm25": {
+            "recall": 1.0,
+            "precision": 0.125,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "hybrid": {
+            "recall": 1.0,
+            "precision": 0.125,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          }
+        },
+        "collo": {
+          "vector": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "bm25": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "hybrid": {
+            "recall": 1.0,
+            "precision": 0.125,
+            "mrr": 0.2,
+            "hit": 1,
+            "first_rank": 5
+          }
+        }
+      }
+    },
+    {
+      "qid": "moutai_channel",
+      "gt_size": 14,
+      "legs": {
+        "formal": {
+          "vector": {
+            "recall": 0.5,
+            "precision": 0.875,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "bm25": {
+            "recall": 0.42857142857142855,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "hybrid": {
+            "recall": 0.5,
+            "precision": 0.875,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          }
+        },
+        "collo": {
+          "vector": {
+            "recall": 0.42857142857142855,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "bm25": {
+            "recall": 0.35714285714285715,
+            "precision": 0.625,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "hybrid": {
+            "recall": 0.5,
+            "precision": 0.875,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          }
+        }
+      }
+    },
+    {
+      "qid": "moutai_dividend",
+      "gt_size": 9,
+      "legs": {
+        "formal": {
+          "vector": {
+            "recall": 0.1111111111111111,
+            "precision": 0.125,
+            "mrr": 0.2,
+            "hit": 1,
+            "first_rank": 5
+          },
+          "bm25": {
+            "recall": 0.4444444444444444,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "hybrid": {
+            "recall": 0.4444444444444444,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          }
+        },
+        "collo": {
+          "vector": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "bm25": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "hybrid": {
+            "recall": 0.2222222222222222,
+            "precision": 0.25,
+            "mrr": 0.2,
+            "hit": 1,
+            "first_rank": 5
+          }
+        }
+      }
+    },
+    {
+      "qid": "moutai_gross",
+      "gt_size": 6,
+      "legs": {
+        "formal": {
+          "vector": {
+            "recall": 1.0,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "bm25": {
+            "recall": 0.3333333333333333,
+            "precision": 0.25,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "hybrid": {
+            "recall": 1.0,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          }
+        },
+        "collo": {
+          "vector": {
+            "recall": 1.0,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "bm25": {
+            "recall": 0.8333333333333334,
+            "precision": 0.625,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "hybrid": {
+            "recall": 1.0,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          }
+        }
+      }
+    },
+    {
+      "qid": "cmb_npl",
+      "gt_size": 7,
+      "legs": {
+        "formal": {
+          "vector": {
+            "recall": 0.2857142857142857,
+            "precision": 0.25,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "bm25": {
+            "recall": 0.42857142857142855,
+            "precision": 0.375,
+            "mrr": 0.25,
+            "hit": 1,
+            "first_rank": 4
+          },
+          "hybrid": {
+            "recall": 0.5714285714285714,
+            "precision": 0.5,
+            "mrr": 0.25,
+            "hit": 1,
+            "first_rank": 4
+          }
+        },
+        "collo": {
+          "vector": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "bm25": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "hybrid": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          }
+        }
+      }
+    },
+    {
+      "qid": "hengrui_rd",
+      "gt_size": 22,
+      "legs": {
+        "formal": {
+          "vector": {
+            "recall": 0.22727272727272727,
+            "precision": 0.625,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "bm25": {
+            "recall": 0.22727272727272727,
+            "precision": 0.625,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "hybrid": {
+            "recall": 0.2727272727272727,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          }
+        },
+        "collo": {
+          "vector": {
+            "recall": 0.13636363636363635,
+            "precision": 0.375,
+            "mrr": 0.3333333333333333,
+            "hit": 1,
+            "first_rank": 3
+          },
+          "bm25": {
+            "recall": 0.045454545454545456,
+            "precision": 0.125,
+            "mrr": 0.14285714285714285,
+            "hit": 1,
+            "first_rank": 7
+          },
+          "hybrid": {
+            "recall": 0.18181818181818182,
+            "precision": 0.5,
+            "mrr": 0.25,
+            "hit": 1,
+            "first_rank": 4
+          }
+        }
+      }
+    },
+    {
+      "qid": "catl_capacity",
+      "gt_size": 4,
+      "legs": {
+        "formal": {
+          "vector": {
+            "recall": 0.25,
+            "precision": 0.125,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "bm25": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "hybrid": {
+            "recall": 0.25,
+            "precision": 0.125,
+            "mrr": 0.3333333333333333,
+            "hit": 1,
+            "first_rank": 3
+          }
+        },
+        "collo": {
+          "vector": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "bm25": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          },
+          "hybrid": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "mrr": 0.0,
+            "hit": 0,
+            "first_rank": 0
+          }
+        }
+      }
+    },
+    {
+      "qid": "pingan_premium",
+      "gt_size": 27,
+      "legs": {
+        "formal": {
+          "vector": {
+            "recall": 0.14814814814814814,
+            "precision": 0.5,
+            "mrr": 0.25,
+            "hit": 1,
+            "first_rank": 4
+          },
+          "bm25": {
+            "recall": 0.14814814814814814,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "hybrid": {
+            "recall": 0.14814814814814814,
+            "precision": 0.5,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          }
+        },
+        "collo": {
+          "vector": {
+            "recall": 0.07407407407407407,
+            "precision": 0.25,
+            "mrr": 0.2,
+            "hit": 1,
+            "first_rank": 5
+          },
+          "bm25": {
+            "recall": 0.1111111111111111,
+            "precision": 0.375,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          },
+          "hybrid": {
+            "recall": 0.2222222222222222,
+            "precision": 0.75,
+            "mrr": 1.0,
+            "hit": 1,
+            "first_rank": 1
+          }
+        }
+      }
+    }
+  ],
+  "exp3_agg": {
+    "formal": {
+      "vector": {
+        "hit": 0.875,
+        "recall": 0.315280784030784,
+        "precision": 0.40625,
+        "mrr": 0.68125
+      },
+      "bm25": {
+        "hit": 0.875,
+        "recall": 0.3762926887926888,
+        "precision": 0.390625,
+        "mrr": 0.78125
+      },
+      "hybrid": {
+        "hit": 1.0,
+        "recall": 0.5233435545935545,
+        "precision": 0.515625,
+        "mrr": 0.8229166666666666
+      }
+    },
+    "colloquial": {
+      "vector": {
+        "hit": 0.5,
+        "recall": 0.20487614237614238,
+        "precision": 0.265625,
+        "mrr": 0.31666666666666665
+      },
+      "bm25": {
+        "hit": 0.5,
+        "recall": 0.16838023088023088,
+        "precision": 0.21875,
+        "mrr": 0.39285714285714285
+      },
+      "hybrid": {
+        "hit": 0.75,
+        "recall": 0.3907828282828283,
+        "precision": 0.40625,
+        "mrr": 0.45625
+      }
+    }
+  }
+}

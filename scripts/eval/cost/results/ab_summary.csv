@@ -1,0 +1,5 @@
+﻿group,trace_id,total_ms,prompt,completion,evidence_refs,errors,fund_ms,risk_ms,fund_prompt,risk_prompt,summary_chars,chunks_chars,compress_ratio
+A_baseline,9dd3dc77,28652,5937,746,8,0,6331,17,4578,0,0,0,0
+B_compress,ef36fd08,23445,5802,1043,8,0,10760,15,4443,0,398,4680,0.085
+C_halluc,b8ab9572,22099,8270,1005,8,0,5175,4300,3550,3361,0,0,0
+D_full,facd9a88,28486,8818,1380,8,0,11364,5080,4127,3332,504,4241,0.1188

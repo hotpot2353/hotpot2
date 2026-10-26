@@ -1,0 +1,12 @@
+# 技术面解析参数：业务数值集中此文件，改阈值不改代码
+# quotes 数据边界：仅 close/volume 两列，无逐日涨跌幅字段（由收盘价推算），无真实资金流
+
+ma_windows: [5, 10, 20, 60]   # 均线窗口（交易日），升序；前三个窗口用于排列判定
+vol_ma_window: 5              # 量比基准：前 N 日均量
+vol_surge_ratio: 1.5          # 最新量 ≥ 基准×1.5 判放量
+vol_shrink_ratio: 0.7         # 最新量 ≤ 基准×0.7 判缩量
+momentum_windows: [5, 20]     # 动量回看窗口（交易日）；最大窗口兼任回撤风险检查
+momentum_drawdown_threshold: -0.15  # 最大动量窗口跌幅 ≤ -15% 记风险点
+range_window: 20              # 支撑/压力取近 N 日收盘最低/最高
+extreme_move_pct_main: 0.095   # 主板 |日涨跌幅| ≥ 9.5% 标记大幅波动日（±10% 涨跌停附近）
+extreme_move_pct_star: 0.195   # 创业板(300)/科创板(688) 涨跌幅限制 ±20%，阈值相应放宽

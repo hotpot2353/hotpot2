@@ -1,0 +1,50 @@
+[project]
+name = "fin-analyst-crew"
+version = "0.1.0"
+description = "基于 CrewAI 层级多 Agent 的金融投研系统"
+requires-python = ">=3.11,<3.13"
+
+# 当前阶段声明「环境 + 数据准备 + Agent 编排 + RAG 检索 + 服务」所需依赖
+# 前端（streamlit）在对应阶段开启时再补入
+dependencies = [
+  # 配置与机密管理
+  "pyyaml>=6.0",
+  "python-dotenv>=1.2",
+  "pydantic>=2.12",
+  "pydantic-settings>=2.16",
+
+  # 数据采集
+  "requests>=2.34",
+  "akshare>=1.19",
+  "baostock>=0.9",
+  "stockstats>=0.6",
+  "xlrd>=2.0",
+  "openpyxl>=3.1",
+
+  # 数据处理
+  "numpy>=2.5",
+  "pandas>=3.0",
+
+  # PDF 解析（年报 / 公告）
+  "PyMuPDF>=1.26",
+  "pdfplumber>=0.11",
+
+  # PostgreSQL（结构化行情 / 财务数据落库）
+  "psycopg[binary]>=3.3",
+  "pgvector>=0.5.1",
+  "sqlalchemy>=2.1",
+
+  # 杂项
+  "tqdm>=4.70",
+
+  # 服务层（FastAPI HTTP 接口）
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+]
+
+[build-system]
+requires = ["setuptools>=84"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}

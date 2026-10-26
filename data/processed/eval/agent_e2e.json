@@ -1,0 +1,854 @@
+[
+  {
+    "cid": "T1",
+    "query": "对招商银行 2024 年做完整研判",
+    "purpose": "池内全链路",
+    "checks": [
+      [
+        "intent",
+        "六字段形状恒定",
+        true,
+        "['dimensions', 'extra', 'output', 'stock_code', 'stock_name', 'years']"
+      ],
+      [
+        "intent",
+        "股票代码 6 位数字",
+        true,
+        "600036"
+      ],
+      [
+        "intent",
+        "年份在库内口径",
+        true,
+        "[2024]"
+      ],
+      [
+        "intent",
+        "维度白名单非空",
+        true,
+        "['fundamental', 'technical', 'sentiment']"
+      ],
+      [
+        "intent",
+        "成文形态合法",
+        true,
+        "report"
+      ],
+      [
+        "collect",
+        "输出契约四键",
+        true,
+        "['financials', 'missing', 'news', 'quotes', 'stock_code']"
+      ],
+      [
+        "collect",
+        "行情三序列等长（池外允许为空，联动技术面降级检查）",
+        true,
+        "n=120"
+      ],
+      [
+        "collect",
+        "财务序列均为数值列表",
+        true,
+        "{'gross_margin': 2, 'net_margin': 2, 'roe': 2, 'cash_to_net_profit': 2, 'pe': 1, 'pb': 1}"
+      ],
+      [
+        "collect",
+        "缺失显式留痕（列表）",
+        true,
+        "['financials:receivable_turnover:unmapped_or_empty', 'financials:inventory_turnover:unmapped_or_empty', 'quotes:akshare_error']"
+      ],
+      [
+        "collect",
+        "新闻 ≤20 条",
+        true,
+        "n=20"
+      ],
+      [
+        "fund",
+        "输出契约六键",
+        true,
+        "['evidence_ref', '利好要点', '利空要点', '指标组合', '方向快照', '盈利分析']"
+      ],
+      [
+        "fund",
+        "盈利分析非空",
+        true,
+        "2024年招商银行毛利率、净利率均保持稳定，整体盈利端的核心利润率水平未出现明显波动。当期ROE保持稳定，净资产收益能力"
+      ],
+      [
+        "fund",
+        "方向快照字段合法",
+        true,
+        "['gross_margin', 'net_margin', 'roe', 'cash_to_net_profit']"
+      ],
+      [
+        "fund",
+        "组合规则条目完整",
+        true,
+        "命中0条"
+      ],
+      [
+        "fund",
+        "证据引用契约字段",
+        true,
+        "refs=8"
+      ],
+      [
+        "fund",
+        "证据 chunk_id 全部可回链",
+        true,
+        "8/8"
+      ],
+      [
+        "fund",
+        "证据均为子块（可回父块）",
+        true,
+        "parent 缺失 0 条"
+      ],
+      [
+        "fund",
+        "证据归属与意图一致",
+        true,
+        "{'600036'}"
+      ],
+      [
+        "fund",
+        "定向摘要已入 trace（幻觉核验原料）",
+        true,
+        "summary=491字"
+      ],
+      [
+        "tech",
+        "输出契约六键",
+        true,
+        "['evidence_ref', '关键价格区间', '均线形态', '资金结论', '趋势判断', '风险点']"
+      ],
+      [
+        "tech",
+        "支撑 ≤ 压力（或降级置空）",
+        true,
+        "40.51/42.8"
+      ],
+      [
+        "tech",
+        "均线形态白名单",
+        true,
+        "多头排列"
+      ],
+      [
+        "tech",
+        "趋势判断非空",
+        true,
+        "招商银行近120个交易日均线呈多头排列，MA5、MA10、MA20、MA60依次抬升，最新收盘价位于"
+      ],
+      [
+        "tech",
+        "evidence_ref 恒为空（结构化域）",
+        true,
+        ""
+      ],
+      [
+        "senti",
+        "占比三项齐全且和≈1",
+        true,
+        "{'正面': 0.0, '中性': 0.95, '负面': 0.05}"
+      ],
+      [
+        "senti",
+        "整体情绪白名单",
+        true,
+        "中性偏负"
+      ],
+      [
+        "senti",
+        "关键事件 ≤5",
+        true,
+        "n=5"
+      ],
+      [
+        "risk",
+        "输出契约三键",
+        true,
+        "['局限性', '矛盾结论', '风险清单']"
+      ],
+      [
+        "risk",
+        "风险项字段与等级白名单",
+        true,
+        "n=7"
+      ],
+      [
+        "risk",
+        "数据缺失进风险清单",
+        true,
+        "['financials:receivable_turnover:unmapped_or_empty', 'financials:inventory_turnover:unmapped_or_empty', 'quotes:akshare_error']"
+      ],
+      [
+        "risk",
+        "局限性含免责声明",
+        true,
+        ""
+      ],
+      [
+        "report",
+        "报告文件已落盘非空",
+        true,
+        "600036_report.md 3715B"
+      ],
+      [
+        "report",
+        "报告含 trace_id 可回链",
+        true,
+        ""
+      ],
+      [
+        "report",
+        "报告含风险表格或未触发声明",
+        true,
+        ""
+      ],
+      [
+        "report",
+        "summary 形态（标的+三维+风险计数）",
+        true,
+        "招商银行(600036) 研判完成：基本面偏多、技术面偏多、舆情中性偏负；风险 7 项，详见 600036_report.md"
+      ],
+      [
+        "trace",
+        "各节点均留耗时",
+        true,
+        "['collect', 'fundamental', 'intent', 'report', 'risk', 'sentiment', 'technical']"
+      ],
+      [
+        "trace",
+        "调用 LLM 的节点均有 token 记账",
+        true,
+        "llm=['fundamental', 'intent', 'risk', 'sentiment', 'technical'] required=['fundamental', 'intent', 'sentiment', 'technical']"
+      ]
+    ],
+    "findings": [],
+    "snapshot": {
+      "trace_id": "7536574a",
+      "intent": {
+        "stock_code": "600036",
+        "stock_name": "招商银行",
+        "years": [
+          2024
+        ],
+        "dimensions": [
+          "fundamental",
+          "technical",
+          "sentiment"
+        ],
+        "output": "report",
+        "extra": ""
+      },
+      "missing": [
+        "financials:receivable_turnover:unmapped_or_empty",
+        "financials:inventory_turnover:unmapped_or_empty",
+        "quotes:akshare_error"
+      ],
+      "errors": [],
+      "latency_ms": {
+        "intent": 1683,
+        "collect": 783,
+        "fundamental": 12384,
+        "technical": 4063,
+        "sentiment": 9346,
+        "risk": 7102,
+        "report": 1
+      },
+      "tokens": {
+        "intent": {
+          "prompt": 295,
+          "completion": 43,
+          "reasoning": 0
+        },
+        "fundamental": {
+          "prompt": 5440,
+          "completion": 443,
+          "reasoning": 0
+        },
+        "technical": {
+          "prompt": 363,
+          "completion": 159,
+          "reasoning": 0
+        },
+        "sentiment": {
+          "prompt": 635,
+          "completion": 418,
+          "reasoning": 0
+        },
+        "risk": {
+          "prompt": 686,
+          "completion": 263,
+          "reasoning": 0
+        }
+      },
+      "summary": "招商银行(600036) 研判完成：基本面偏多、技术面偏多、舆情中性偏负；风险 7 项，详见 600036_report.md",
+      "report_path": "",
+      "wall_s": 35.4,
+      "evidence_n": 8
+    }
+  },
+  {
+    "cid": "T2",
+    "query": "只分析恒瑞医药 2023 年的基本面，技术面和舆情不用",
+    "purpose": "维度门控探针",
+    "checks": [
+      [
+        "intent",
+        "六字段形状恒定",
+        true,
+        "['dimensions', 'extra', 'output', 'stock_code', 'stock_name', 'years']"
+      ],
+      [
+        "intent",
+        "股票代码 6 位数字",
+        true,
+        "600276"
+      ],
+      [
+        "intent",
+        "年份在库内口径",
+        true,
+        "[2023]"
+      ],
+      [
+        "intent",
+        "维度白名单非空",
+        true,
+        "['fundamental']"
+      ],
+      [
+        "intent",
+        "成文形态合法",
+        true,
+        "report"
+      ],
+      [
+        "collect",
+        "输出契约四键",
+        true,
+        "['financials', 'missing', 'news', 'quotes', 'stock_code']"
+      ],
+      [
+        "collect",
+        "行情三序列等长（池外允许为空，联动技术面降级检查）",
+        true,
+        "n=120"
+      ],
+      [
+        "collect",
+        "财务序列均为数值列表",
+        true,
+        "{'gross_margin': 2, 'net_margin': 2, 'roe': 2, 'cash_to_net_profit': 2, 'receivable_turnover': 2, 'inventory_turnover': 2, 'pe': 1, 'pb': 1}"
+      ],
+      [
+        "collect",
+        "缺失显式留痕（列表）",
+        true,
+        "['quotes:akshare_error']"
+      ],
+      [
+        "collect",
+        "新闻 ≤20 条",
+        true,
+        "n=20"
+      ],
+      [
+        "fund",
+        "输出契约六键",
+        true,
+        "['evidence_ref', '利好要点', '利空要点', '指标组合', '方向快照', '盈利分析']"
+      ],
+      [
+        "fund",
+        "盈利分析非空",
+        true,
+        "2023年恒瑞医药毛利率、净利率、ROE均保持稳定，整体盈利水平具备较强韧性。公司应收账款周转率、存货周转率均保持稳定，"
+      ],
+      [
+        "fund",
+        "方向快照字段合法",
+        true,
+        "['gross_margin', 'net_margin', 'roe', 'cash_to_net_profit', 'receivable_turnover', 'inventory_turnover']"
+      ],
+      [
+        "fund",
+        "组合规则条目完整",
+        true,
+        "命中0条"
+      ],
+      [
+        "fund",
+        "证据引用契约字段",
+        true,
+        "refs=8"
+      ],
+      [
+        "fund",
+        "证据 chunk_id 全部可回链",
+        true,
+        "8/8"
+      ],
+      [
+        "fund",
+        "证据均为子块（可回父块）",
+        true,
+        "parent 缺失 0 条"
+      ],
+      [
+        "fund",
+        "证据归属与意图一致",
+        true,
+        "{'600276'}"
+      ],
+      [
+        "fund",
+        "定向摘要已入 trace（幻觉核验原料）",
+        true,
+        "summary=663字"
+      ],
+      [
+        "tech",
+        "输出契约六键",
+        true,
+        "['evidence_ref', '关键价格区间', '均线形态', '资金结论', '趋势判断', '风险点']"
+      ],
+      [
+        "tech",
+        "支撑 ≤ 压力（或降级置空）",
+        true,
+        "42.67/47.2"
+      ],
+      [
+        "tech",
+        "均线形态白名单",
+        true,
+        "均线纠缠"
+      ],
+      [
+        "tech",
+        "趋势判断非空",
+        true,
+        "近120个交易日维度下，标的均线呈现纠缠形态，短周期MA5、MA10与MA20数值较为接近，当前收盘"
+      ],
+      [
+        "tech",
+        "evidence_ref 恒为空（结构化域）",
+        true,
+        ""
+      ],
+      [
+        "senti",
+        "占比三项齐全且和≈1",
+        true,
+        "{'正面': 0.35, '中性': 0.65, '负面': 0.0}"
+      ],
+      [
+        "senti",
+        "整体情绪白名单",
+        true,
+        "中性偏正"
+      ],
+      [
+        "senti",
+        "关键事件 ≤5",
+        true,
+        "n=5"
+      ],
+      [
+        "risk",
+        "输出契约三键",
+        true,
+        "['局限性', '矛盾结论', '风险清单']"
+      ],
+      [
+        "risk",
+        "风险项字段与等级白名单",
+        true,
+        "n=5"
+      ],
+      [
+        "risk",
+        "数据缺失进风险清单",
+        true,
+        "['quotes:akshare_error']"
+      ],
+      [
+        "risk",
+        "局限性含免责声明",
+        true,
+        ""
+      ],
+      [
+        "report",
+        "报告文件已落盘非空",
+        true,
+        "600276_report.md 3247B"
+      ],
+      [
+        "report",
+        "报告含 trace_id 可回链",
+        true,
+        ""
+      ],
+      [
+        "report",
+        "报告含风险表格或未触发声明",
+        true,
+        ""
+      ],
+      [
+        "report",
+        "summary 形态（标的+三维+风险计数）",
+        true,
+        "恒瑞医药(600276) 研判完成：基本面偏多、技术面震荡、舆情中性偏正；风险 5 项，详见 600276_report.md"
+      ],
+      [
+        "trace",
+        "各节点均留耗时",
+        true,
+        "['collect', 'fundamental', 'intent', 'report', 'risk', 'sentiment', 'technical']"
+      ],
+      [
+        "trace",
+        "调用 LLM 的节点均有 token 记账",
+        true,
+        "llm=['fundamental', 'intent', 'risk', 'sentiment', 'technical'] required=['fundamental', 'intent', 'sentiment', 'technical']"
+      ]
+    ],
+    "findings": [
+      [
+        "P2",
+        "维度门控缺失：intent.dimensions=[fundamental]，但技术面/舆情仍被计算并进报告（flow 三分析无条件 listen(collect)，dims 只影响池外判定与报告头）"
+      ]
+    ],
+    "snapshot": {
+      "trace_id": "0d4be2e5",
+      "intent": {
+        "stock_code": "600276",
+        "stock_name": "恒瑞医药",
+        "years": [
+          2023
+        ],
+        "dimensions": [
+          "fundamental"
+        ],
+        "output": "report",
+        "extra": ""
+      },
+      "missing": [
+        "quotes:akshare_error"
+      ],
+      "errors": [],
+      "latency_ms": {
+        "intent": 1443,
+        "collect": 234,
+        "fundamental": 13812,
+        "technical": 5905,
+        "sentiment": 9489,
+        "risk": 4309,
+        "report": 1
+      },
+      "tokens": {
+        "intent": {
+          "prompt": 303,
+          "completion": 40,
+          "reasoning": 0
+        },
+        "fundamental": {
+          "prompt": 4332,
+          "completion": 657,
+          "reasoning": 0
+        },
+        "technical": {
+          "prompt": 365,
+          "completion": 145,
+          "reasoning": 0
+        },
+        "sentiment": {
+          "prompt": 699,
+          "completion": 399,
+          "reasoning": 0
+        },
+        "risk": {
+          "prompt": 865,
+          "completion": 173,
+          "reasoning": 0
+        }
+      },
+      "summary": "恒瑞医药(600276) 研判完成：基本面偏多、技术面震荡、舆情中性偏正；风险 5 项，详见 600276_report.md",
+      "report_path": "",
+      "wall_s": 35.2,
+      "evidence_n": 8
+    }
+  },
+  {
+    "cid": "T3",
+    "query": "对中国银行 做完整研判",
+    "purpose": "池外标的（601988）显式降级继续路径（技术/舆情可支撑则不拒绝）",
+    "checks": [
+      [
+        "intent",
+        "六字段形状恒定",
+        true,
+        "['dimensions', 'extra', 'output', 'stock_code', 'stock_name', 'years']"
+      ],
+      [
+        "intent",
+        "股票代码 6 位数字",
+        true,
+        "601988"
+      ],
+      [
+        "intent",
+        "年份在库内口径",
+        true,
+        "[2024]"
+      ],
+      [
+        "intent",
+        "维度白名单非空",
+        true,
+        "['fundamental', 'technical', 'sentiment']"
+      ],
+      [
+        "intent",
+        "成文形态合法",
+        true,
+        "report"
+      ],
+      [
+        "collect",
+        "输出契约四键",
+        true,
+        "['financials', 'missing', 'news', 'quotes', 'stock_code']"
+      ],
+      [
+        "collect",
+        "行情三序列等长（池外允许为空，联动技术面降级检查）",
+        true,
+        "n=0"
+      ],
+      [
+        "collect",
+        "财务序列均为数值列表",
+        true,
+        "{}"
+      ],
+      [
+        "collect",
+        "缺失显式留痕（列表）",
+        true,
+        "['financials:out_of_pool', 'quotes:akshare_error']"
+      ],
+      [
+        "collect",
+        "新闻 ≤20 条",
+        true,
+        "n=20"
+      ],
+      [
+        "fund",
+        "输出契约六键",
+        true,
+        "['evidence_ref', '利好要点', '利空要点', '指标组合', '方向快照', '盈利分析']"
+      ],
+      [
+        "fund",
+        "盈利分析非空",
+        true,
+        "财务数据不可用，本报告不含基本面分析"
+      ],
+      [
+        "fund",
+        "方向快照为空必须伴随显式降级声明",
+        true,
+        "财务数据不可用，本报告不含基本面分析"
+      ],
+      [
+        "fund",
+        "组合规则条目完整",
+        true,
+        "命中0条"
+      ],
+      [
+        "fund",
+        "证据引用契约字段",
+        true,
+        "refs=0"
+      ],
+      [
+        "tech",
+        "输出契约六键",
+        true,
+        "['evidence_ref', '关键价格区间', '均线形态', '资金结论', '趋势判断', '风险点']"
+      ],
+      [
+        "tech",
+        "行情不足必须显式降级",
+        true,
+        "行情数据不足，本报告不含技术面分析"
+      ],
+      [
+        "tech",
+        "支撑 ≤ 压力（或降级置空）",
+        true,
+        "None/None"
+      ],
+      [
+        "tech",
+        "均线形态白名单",
+        true,
+        ""
+      ],
+      [
+        "tech",
+        "趋势判断非空",
+        true,
+        "行情数据不足，本报告不含技术面分析"
+      ],
+      [
+        "tech",
+        "evidence_ref 恒为空（结构化域）",
+        true,
+        ""
+      ],
+      [
+        "senti",
+        "占比三项齐全且和≈1",
+        true,
+        "{'正面': 0.25, '中性': 0.7, '负面': 0.05}"
+      ],
+      [
+        "senti",
+        "整体情绪白名单",
+        true,
+        "中性偏正"
+      ],
+      [
+        "senti",
+        "关键事件 ≤5",
+        true,
+        "n=5"
+      ],
+      [
+        "risk",
+        "输出契约三键",
+        true,
+        "['局限性', '矛盾结论', '风险清单']"
+      ],
+      [
+        "risk",
+        "风险项字段与等级白名单",
+        true,
+        "n=2"
+      ],
+      [
+        "risk",
+        "数据缺失进风险清单",
+        true,
+        "['financials:out_of_pool', 'quotes:akshare_error']"
+      ],
+      [
+        "risk",
+        "局限性含免责声明",
+        true,
+        ""
+      ],
+      [
+        "report",
+        "报告文件已落盘非空",
+        true,
+        "601988_report.md 1619B"
+      ],
+      [
+        "report",
+        "报告含 trace_id 可回链",
+        true,
+        ""
+      ],
+      [
+        "report",
+        "报告含风险表格或未触发声明",
+        true,
+        ""
+      ],
+      [
+        "report",
+        "summary 形态（标的+三维+风险计数）",
+        true,
+        "中国银行(601988) 研判完成：基本面数据缺失、技术面数据缺失、舆情中性偏正；风险 2 项，详见 601988_report.md"
+      ],
+      [
+        "trace",
+        "各节点均留耗时",
+        true,
+        "['collect', 'fundamental', 'intent', 'report', 'risk', 'sentiment', 'technical']"
+      ],
+      [
+        "trace",
+        "调用 LLM 的节点均有 token 记账",
+        true,
+        "llm=['intent', 'sentiment'] required=['intent', 'sentiment']"
+      ]
+    ],
+    "findings": [],
+    "snapshot": {
+      "trace_id": "553b8e22",
+      "intent": {
+        "stock_code": "601988",
+        "stock_name": "中国银行",
+        "years": [
+          2024
+        ],
+        "dimensions": [
+          "fundamental",
+          "technical",
+          "sentiment"
+        ],
+        "output": "report",
+        "extra": ""
+      },
+      "missing": [
+        "financials:out_of_pool",
+        "quotes:akshare_error"
+      ],
+      "errors": [
+        {
+          "type": "out_of_pool",
+          "stock_code": "601988",
+          "detail": "结构化财务与年报RAG不可用，仅支撑技术面/舆情"
+        }
+      ],
+      "latency_ms": {
+        "intent": 1684,
+        "collect": 241,
+        "fundamental": 0,
+        "technical": 0,
+        "sentiment": 8505,
+        "risk": 15,
+        "report": 1
+      },
+      "tokens": {
+        "intent": {
+          "prompt": 289,
+          "completion": 43,
+          "reasoning": 0
+        },
+        "sentiment": {
+          "prompt": 626,
+          "completion": 426,
+          "reasoning": 0
+        }
+      },
+      "summary": "中国银行(601988) 研判完成：基本面数据缺失、技术面数据缺失、舆情中性偏正；风险 2 项，详见 601988_report.md",
+      "report_path": "",
+      "wall_s": 10.5,
+      "evidence_n": 0
+    }
+  }
+]

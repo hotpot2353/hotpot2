@@ -1,0 +1,484 @@
+{
+  "ts": "2026-10-20T22:30:52",
+  "k": 8,
+  "rerank": true,
+  "rerank_model": "doubao-seed-rerank",
+  "rerank_instruction": false,
+  "bm25_operator": "and_or_fallback",
+  "n_queries": 15,
+  "aggregate": {
+    "vector": {
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.5182499907499908,
+      "precision_at_k": 0.4583333333333333,
+      "mrr": 0.888888888888889,
+      "avg_latency_s": 0.40226666666666666
+    },
+    "bm25": {
+      "hit_at_k": 0.8666666666666667,
+      "recall_at_k": 0.3119179277512611,
+      "precision_at_k": 0.3333333333333333,
+      "mrr": 0.7688888888888888,
+      "avg_latency_s": 0.18339999999999998
+    },
+    "hybrid": {
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.5182499907499908,
+      "precision_at_k": 0.4583333333333333,
+      "mrr": 0.888888888888889,
+      "avg_latency_s": 0.4058
+    }
+  },
+  "per_query": [
+    {
+      "qid": "moutai_rev",
+      "gt_size": 1,
+      "legs": {
+        "vector": {
+          "recall": 1.0,
+          "precision": 0.125,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.527
+        },
+        "bm25": {
+          "recall": 1.0,
+          "precision": 0.125,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.14
+        },
+        "hybrid": {
+          "recall": 1.0,
+          "precision": 0.125,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.291
+        }
+      }
+    },
+    {
+      "qid": "moutai_channel",
+      "gt_size": 14,
+      "legs": {
+        "vector": {
+          "recall": 0.5,
+          "precision": 0.875,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.346
+        },
+        "bm25": {
+          "recall": 0.5,
+          "precision": 0.875,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.223
+        },
+        "hybrid": {
+          "recall": 0.5,
+          "precision": 0.875,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.38
+        }
+      }
+    },
+    {
+      "qid": "moutai_dividend",
+      "gt_size": 9,
+      "legs": {
+        "vector": {
+          "recall": 0.3333333333333333,
+          "precision": 0.375,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.732
+        },
+        "bm25": {
+          "recall": 0.4444444444444444,
+          "precision": 0.5,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.252
+        },
+        "hybrid": {
+          "recall": 0.3333333333333333,
+          "precision": 0.375,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.384
+        }
+      }
+    },
+    {
+      "qid": "moutai_gross",
+      "gt_size": 6,
+      "legs": {
+        "vector": {
+          "recall": 0.6666666666666666,
+          "precision": 0.5,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.326
+        },
+        "bm25": {
+          "recall": 0.3333333333333333,
+          "precision": 0.25,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.178
+        },
+        "hybrid": {
+          "recall": 0.6666666666666666,
+          "precision": 0.5,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.342
+        }
+      }
+    },
+    {
+      "qid": "moutai_risk",
+      "gt_size": 2,
+      "legs": {
+        "vector": {
+          "recall": 1.0,
+          "precision": 0.25,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.257
+        },
+        "bm25": {
+          "recall": 0.0,
+          "precision": 0.0,
+          "mrr": 0.0,
+          "hit": 0,
+          "first_rank": 0,
+          "latency_s": 0.132
+        },
+        "hybrid": {
+          "recall": 1.0,
+          "precision": 0.25,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.38
+        }
+      }
+    },
+    {
+      "qid": "pingan_premium",
+      "gt_size": 27,
+      "legs": {
+        "vector": {
+          "recall": 0.2222222222222222,
+          "precision": 0.75,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.297
+        },
+        "bm25": {
+          "recall": 0.14814814814814814,
+          "precision": 0.5,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.198
+        },
+        "hybrid": {
+          "recall": 0.2222222222222222,
+          "precision": 0.75,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.76
+        }
+      }
+    },
+    {
+      "qid": "pingan_invest",
+      "gt_size": 2,
+      "legs": {
+        "vector": {
+          "recall": 1.0,
+          "precision": 0.25,
+          "mrr": 0.5,
+          "hit": 1,
+          "first_rank": 2,
+          "latency_s": 0.329
+        },
+        "bm25": {
+          "recall": 0.0,
+          "precision": 0.0,
+          "mrr": 0.0,
+          "hit": 0,
+          "first_rank": 0,
+          "latency_s": 0.126
+        },
+        "hybrid": {
+          "recall": 1.0,
+          "precision": 0.25,
+          "mrr": 0.5,
+          "hit": 1,
+          "first_rank": 2,
+          "latency_s": 0.41
+        }
+      }
+    },
+    {
+      "qid": "citic_biz",
+      "gt_size": 39,
+      "legs": {
+        "vector": {
+          "recall": 0.1282051282051282,
+          "precision": 0.625,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.429
+        },
+        "bm25": {
+          "recall": 0.07692307692307693,
+          "precision": 0.375,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.153
+        },
+        "hybrid": {
+          "recall": 0.1282051282051282,
+          "precision": 0.625,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.367
+        }
+      }
+    },
+    {
+      "qid": "citic_audit",
+      "gt_size": 5,
+      "legs": {
+        "vector": {
+          "recall": 0.6,
+          "precision": 0.375,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.381
+        },
+        "bm25": {
+          "recall": 0.6,
+          "precision": 0.375,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.184
+        },
+        "hybrid": {
+          "recall": 0.6,
+          "precision": 0.375,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.373
+        }
+      }
+    },
+    {
+      "qid": "cmb_npl",
+      "gt_size": 7,
+      "legs": {
+        "vector": {
+          "recall": 0.5714285714285714,
+          "precision": 0.5,
+          "mrr": 0.3333333333333333,
+          "hit": 1,
+          "first_rank": 3,
+          "latency_s": 0.525
+        },
+        "bm25": {
+          "recall": 0.42857142857142855,
+          "precision": 0.375,
+          "mrr": 0.3333333333333333,
+          "hit": 1,
+          "first_rank": 3,
+          "latency_s": 0.153
+        },
+        "hybrid": {
+          "recall": 0.5714285714285714,
+          "precision": 0.5,
+          "mrr": 0.3333333333333333,
+          "hit": 1,
+          "first_rank": 3,
+          "latency_s": 0.492
+        }
+      }
+    },
+    {
+      "qid": "hengrui_rd",
+      "gt_size": 22,
+      "legs": {
+        "vector": {
+          "recall": 0.2727272727272727,
+          "precision": 0.75,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.392
+        },
+        "bm25": {
+          "recall": 0.3181818181818182,
+          "precision": 0.875,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.237
+        },
+        "hybrid": {
+          "recall": 0.2727272727272727,
+          "precision": 0.75,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.33
+        }
+      }
+    },
+    {
+      "qid": "catl_capacity",
+      "gt_size": 4,
+      "legs": {
+        "vector": {
+          "recall": 0.25,
+          "precision": 0.125,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.252
+        },
+        "bm25": {
+          "recall": 0.5,
+          "precision": 0.25,
+          "mrr": 0.2,
+          "hit": 1,
+          "first_rank": 5,
+          "latency_s": 0.238
+        },
+        "hybrid": {
+          "recall": 0.25,
+          "precision": 0.125,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.392
+        }
+      }
+    },
+    {
+      "qid": "lithium_cross",
+      "gt_size": 30,
+      "legs": {
+        "vector": {
+          "recall": 0.16666666666666666,
+          "precision": 0.625,
+          "mrr": 0.5,
+          "hit": 1,
+          "first_rank": 2,
+          "latency_s": 0.601
+        },
+        "bm25": {
+          "recall": 0.06666666666666667,
+          "precision": 0.25,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.15
+        },
+        "hybrid": {
+          "recall": 0.16666666666666666,
+          "precision": 0.625,
+          "mrr": 0.5,
+          "hit": 1,
+          "first_rank": 2,
+          "latency_s": 0.427
+        }
+      }
+    },
+    {
+      "qid": "battery_cross",
+      "gt_size": 16,
+      "legs": {
+        "vector": {
+          "recall": 0.0625,
+          "precision": 0.125,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.32
+        },
+        "bm25": {
+          "recall": 0.0625,
+          "precision": 0.125,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.123
+        },
+        "hybrid": {
+          "recall": 0.0625,
+          "precision": 0.125,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.381
+        }
+      }
+    },
+    {
+      "qid": "moutai_cashflow",
+      "gt_size": 5,
+      "legs": {
+        "vector": {
+          "recall": 1.0,
+          "precision": 0.625,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.32
+        },
+        "bm25": {
+          "recall": 0.2,
+          "precision": 0.125,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.264
+        },
+        "hybrid": {
+          "recall": 1.0,
+          "precision": 0.625,
+          "mrr": 1.0,
+          "hit": 1,
+          "first_rank": 1,
+          "latency_s": 0.378
+        }
+      }
+    }
+  ]
+}

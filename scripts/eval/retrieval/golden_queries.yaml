@@ -1,0 +1,73 @@
+# 检索效果评测金标集：query + 召回过滤 + GT 标记
+# GT = 过滤范围内 section_contains 与全部 text_contains 同时命中的 child 块集合（eval 时库内实测确定，
+# 非人工标注 chunk_id——chunk_id 随切块版本变化，内容标记更稳）
+# 维护口径：新增/修改条目先跑 eval_retrieval.py --validate 确认 gt_size >= 1；
+# gt_size 过大（>50）说明标记太宽需收紧，过小（=1）注意别退化成只测一个块
+# 覆盖面：定向金额/比率/业务构成/渠道/研发/风控/审计意见/跨池主题 8 类场景 × 消费/金融/医药/新能源多行业
+queries:
+  - qid: moutai_rev
+    query: 贵州茅台 2024 年度营业总收入与净利润金额
+    stock_code: "600519"
+    year: 2024
+    section_contains: 主要经营情况
+    text_contains: [营业总收入]
+  - qid: moutai_channel
+    query: 贵州茅台直销与批发代理渠道收入情况
+    stock_code: "600519"
+    text_contains: [直销, 批发代理]
+  - qid: moutai_dividend
+    query: 贵州茅台 2024 年度利润分配预案与现金分红安排
+    stock_code: "600519"
+    year: 2024
+    text_contains: [利润分配]
+  - qid: moutai_gross
+    query: 茅台酒主营业务分产品毛利率情况
+    stock_code: "600519"
+    section_contains: 主要经营情况
+    text_contains: [毛利率]
+  - qid: moutai_risk
+    query: 公司未来发展中可能面对的风险
+    stock_code: "600519"
+    year: 2024
+    section_contains: 未来发展的讨论与分析
+    text_contains: [风险]
+  - qid: pingan_premium
+    query: 中国平安原保险合同保费收入情况
+    stock_code: "601318"
+    text_contains: [保费收入]
+  - qid: pingan_invest
+    query: 中国平安投资资产与总投资收益率
+    stock_code: "601318"
+    text_contains: [总投资收益率]
+  - qid: citic_biz
+    query: 中信证券经纪业务与手续费及佣金净收入
+    stock_code: "600030"
+    text_contains: [经纪业务]
+  - qid: citic_audit
+    query: 审计意见类型与关键审计事项
+    stock_code: "600030"
+    section_contains: 审计
+    text_contains: [审计意见]
+  - qid: cmb_npl
+    query: 招商银行不良贷款率与拨备覆盖率
+    stock_code: "600036"
+    text_contains: [不良贷款率, 拨备覆盖率]
+  - qid: hengrui_rd
+    query: 恒瑞医药研发投入金额及占营业收入比例
+    stock_code: "600276"
+    text_contains: [研发投入]
+  - qid: catl_capacity
+    query: 宁德时代动力电池系统产能与产能利用率
+    stock_code: "300750"
+    text_contains: [产能利用率]
+  - qid: lithium_cross
+    query: 锂矿资源储量与采选产能布局
+    text_contains: [锂矿, 储量]
+  - qid: battery_cross
+    query: 动力电池装机量与市场份额情况
+    text_contains: [装机量]
+  - qid: moutai_cashflow
+    query: 经营活动产生的现金流量净额及变动原因
+    stock_code: "600519"
+    year: 2024
+    text_contains: [经营活动产生的现金流量净额]

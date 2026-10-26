@@ -1,0 +1,163 @@
+<!--
+  多维研判报告中心：原生 HTML/JS 零外部依赖
+  数据源：GET /api/reports 列表 · GET /api/reports/{name} 正文（服务端已渲染 HTML）
+  研判：POST /analyze（约 25s 同步长任务；编排层依赖缺失时展示可读错误）
+-->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>多维研判报告中心</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#fff; --line:#e4e8ee; --ink:#1c2330; --mut:#6b7686;
+    --brand:#14508c; --brand-soft:#eaf2fb; --ok:#0a7d43; --warn:#b45309; --danger:#c0392b;
+  }
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;}
+  .bar{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .logo{font-size:17px;font-weight:600;} .logo small{color:var(--mut);font-weight:400;margin-left:8px;}
+  .spacer{flex:1}
+  input#q{flex:1;min-width:260px;max-width:420px;padding:8px 12px;border:1px solid var(--line);
+    border-radius:8px;font-size:14px;outline:none;}
+  input#q:focus{border-color:var(--brand)}
+  button{border:none;border-radius:8px;padding:8px 16px;font-size:14px;cursor:pointer;
+    background:var(--brand);color:#fff;}
+  button:disabled{opacity:.55;cursor:not-allowed}
+  button.ghost{background:var(--brand-soft);color:var(--brand);padding:6px 12px;font-size:13px;}
+  #status{font-size:13px;color:var(--mut);min-width:120px}
+  .layout{max-width:1200px;margin:18px auto;padding:0 20px;display:flex;gap:16px;align-items:flex-start;}
+  aside{width:290px;flex-shrink:0;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:10px;position:sticky;top:64px;max-height:calc(100vh - 90px);overflow:auto;}
+  aside h3{margin:6px 8px 8px;font-size:13px;color:var(--mut);font-weight:500;}
+  .item{padding:10px 12px;border-radius:8px;cursor:pointer;margin-bottom:4px;}
+  .item:hover{background:var(--brand-soft)}
+  .item.active{background:var(--brand-soft);outline:1px solid var(--brand)}
+  .item .t{font-size:14px;font-weight:500;line-height:1.4;}
+  .item .m{font-size:12px;color:var(--mut);margin-top:3px;}
+  .item.stub{opacity:.55}
+  main{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:28px 34px;min-height:60vh;}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;}
+  .tab{font-size:13px;padding:5px 14px;border-radius:999px;background:#eef1f5;color:var(--mut);cursor:pointer;}
+  .tab.on{background:var(--brand);color:#fff;}
+  #empty{color:var(--mut);text-align:center;padding:80px 0;font-size:14px;}
+  /* 报告排版 */
+  #view{max-width:860px;margin:0 auto;line-height:1.85;font-size:15px;}
+  #view h1{font-size:23px;border-bottom:2px solid var(--line);padding-bottom:12px;}
+  #view h2{font-size:18px;margin-top:30px;border-left:4px solid var(--brand);padding-left:10px;}
+  #view blockquote{margin:14px 0;padding:10px 16px;background:var(--brand-soft);
+    border-radius:8px;color:var(--brand);font-size:13.5px;}
+  #view table{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0;}
+  #view th,#view td{border:1px solid var(--line);padding:7px 12px;text-align:left;vertical-align:top;}
+  #view th{background:#f0f3f7;} #view tr:nth-child(even) td{background:#fafbfd;}
+  .badge{display:inline-block;min-width:34px;text-align:center;padding:1px 10px;border-radius:999px;font-size:12px;font-weight:600;}
+  .lv-h{background:#fdecea;color:#c0392b;} .lv-m{background:#fff4e0;color:#9a6700;} .lv-l{background:#eef3f7;color:#5a6b7f;}
+  #view tr.row-soft td{color:var(--mut);background:#fcfcfd;}
+  #view hr{border:none;border-top:1px solid var(--line);margin:26px 0;}
+  #view em{color:var(--mut);}
+  pre#raw{display:none;background:#0f172a;color:#d7e2f0;border-radius:10px;padding:20px;
+    font-size:12.5px;line-height:1.6;overflow:auto;white-space:pre-wrap;}
+  @media (max-width:860px){.layout{flex-direction:column}aside{width:100%;position:static;max-height:220px}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="logo">多维研判报告中心<small>fin_analyst_crew</small></div>
+  <div class="spacer"></div>
+  <input id="q" placeholder="输入研判问题，如：对平安银行 2024 年做完整研判">
+  <button id="go">开始研判</button>
+  <span id="status"></span>
+</div></header>
+
+<div class="layout">
+  <aside>
+    <h3>报告列表 <button class="ghost" id="refresh" style="float:right">刷新</button></h3>
+    <div id="list"></div>
+  </aside>
+  <main>
+    <div id="empty">左侧选择一份报告查看完整内容</div>
+    <div id="wrap" style="display:none">
+      <div class="tabs">
+        <span class="tab on" data-v="view">渲染视图</span>
+        <span class="tab" data-v="raw">Markdown 原文</span>
+      </div>
+      <article id="view"></article>
+      <pre id="raw"></pre>
+    </div>
+  </main>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+let current = null, cache = {};
+
+async function loadList(){
+  const r = await fetch('/api/reports'); const data = await r.json();
+  $('#list').innerHTML = data.reports.map(x => `
+    <div class="item ${x.is_stub?'stub':''} ${x.file===current?'active':''}" data-f="${x.file}">
+      <div class="t">${x.title}</div>
+      <div class="m">${x.file} · ${x.generated_at || '时间未知'}</div>
+    </div>`).join('') || '<div class="item"><div class="m">暂无报告</div></div>';
+  document.querySelectorAll('.item[data-f]').forEach(el =>
+    el.onclick = () => open(el.dataset.f));
+}
+
+async function open(file){
+  current = file;
+  if(!cache[file]){
+    const r = await fetch('/api/reports/' + encodeURIComponent(file));
+    if(!r.ok){ $('#status').textContent = (await r.json()).detail || '加载失败'; return; }
+    cache[file] = await r.json();
+  }
+  const d = cache[file];
+  $('#view').innerHTML = d.html;
+  decorate();
+  $('#raw').textContent = d.raw;
+  $('#empty').style.display = 'none'; $('#wrap').style.display = 'block';
+  setTab('view'); loadList();
+}
+
+function setTab(v){
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.v === v));
+  $('#view').style.display = v === 'view' ? '' : 'none';
+  $('#raw').style.display = v === 'raw' ? '' : 'none';
+}
+
+function decorate(){
+  // 风险清单可视化：等级列上彩色徽章；数据缺失行弱化（灰显，提示为口径说明而非经营风险）
+  document.querySelectorAll('#view table tbody tr').forEach(tr => {
+    const lv = tr.cells[0] && tr.cells[0].textContent.trim();
+    if(!['高','中','低'].includes(lv)) return;
+    const cls = lv === '高' ? 'lv-h' : lv === '中' ? 'lv-m' : 'lv-l';
+    tr.cells[0].innerHTML = `<span class="badge ${cls}">${lv}</span>`;
+    if(tr.cells[1] && tr.cells[1].textContent.includes('数据缺失')) tr.classList.add('row-soft');
+  });
+}
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => setTab(t.dataset.v));
+$('#refresh').onclick = () => { cache = {}; loadList(); };
+
+$('#go').onclick = async () => {
+  const q = $('#q').value.trim();
+  if(!q){ $('#status').textContent = '请输入研判问题'; return; }
+  const btn = $('#go'); btn.disabled = true;
+  $('#status').textContent = '研判中…全链路约 25 秒';
+  try{
+    const r = await fetch('/analyze', {method:'POST',
+      headers:{'Content-Type':'application/json'}, body: JSON.stringify({query:q})});
+    const text = await r.text();
+    let d = {};
+    try{ d = JSON.parse(text); }catch(_){ }
+    if(!r.ok) throw new Error(d.detail || text.slice(0,120) || ('研判失败 HTTP ' + r.status));
+    $('#status').textContent = d.summary.slice(0, 60) + '…';
+    cache = {}; await loadList(); open(d.report_path.split(/[\\/]/).pop());
+  }catch(e){ $('#status').textContent = e.message; }
+  finally{ btn.disabled = false; }
+};
+
+loadList();
+</script>
+</body>
+</html>
